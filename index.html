@@ -1,0 +1,343 @@
+<title>Налаштування телефону</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" referrerpolicy="no-referrer">
+<style>
+  :root{
+    --ink:#15202b; --ink-soft:#4a5a68; --ground:#f5f7f9; --surface:#ffffff;
+    --line:#d3dce4; --line-soft:#e6ecf1; --accent:#1d6fa5; --accent-ink:#ffffff;
+    --accent-wash:#e8f1f7; --done:#2f7d52; --done-wash:#e7f2ec; --warn:#8a5a12; --warn-wash:#fbf2e2;
+    --rail:#a9bcca;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ink:#e8eef3; --ink-soft:#a0b2c0; --ground:#101820; --surface:#18222c;
+      --line:#2c3a47; --line-soft:#222d38; --accent:#5aa8d8; --accent-ink:#0c141b;
+      --accent-wash:#1a2b38; --done:#6fc094; --done-wash:#16281f; --warn:#d8ab62; --warn-wash:#2a2217;
+      --rail:#49606f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#e8eef3; --ink-soft:#a0b2c0; --ground:#101820; --surface:#18222c;
+    --line:#2c3a47; --line-soft:#222d38; --accent:#5aa8d8; --accent-ink:#0c141b;
+    --accent-wash:#1a2b38; --done:#6fc094; --done-wash:#16281f; --warn:#d8ab62; --warn-wash:#2a2217;
+    --rail:#49606f;
+  }
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:"Source Sans 3",system-ui,-apple-system,Segoe UI,sans-serif;
+    font-size:19px; line-height:1.55; margin:0;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:34rem; margin:0 auto; padding:1.5rem 1.15rem 4rem}
+
+  /* ---- head ---- */
+  .masthead{display:flex; flex-direction:column; gap:.85rem; margin-bottom:2rem}
+  h1{
+    font-family:Bitter,Georgia,serif; font-weight:700; font-size:1.85rem;
+    line-height:1.15; margin:0; text-wrap:balance; letter-spacing:-.01em;
+  }
+  .sub{margin:0; color:var(--ink-soft); font-size:1.02rem}
+  .langs{display:flex; gap:.4rem}
+  .langs button{
+    font:600 .82rem/1 "Source Sans 3",sans-serif; letter-spacing:.09em; text-transform:uppercase;
+    padding:.5rem .85rem; border-radius:999px; cursor:pointer;
+    background:transparent; color:var(--ink-soft); border:1px solid var(--line);
+  }
+  .langs button[aria-pressed="true"]{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+
+  /* ---- parts ---- */
+  .part{margin:2.4rem 0 1.1rem; display:flex; align-items:baseline; gap:.7rem}
+  .part::after{content:""; flex:1; height:1px; background:var(--line)}
+  .part span{
+    font:700 .76rem/1 "Source Sans 3",sans-serif;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
+  }
+
+  /* ---- steps ---- */
+  ol{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1.6rem}
+  li{display:grid; grid-template-columns:2.4rem 1fr; gap:0 .9rem; align-items:start}
+  .num{
+    font-family:Bitter,Georgia,serif; font-weight:700; font-size:1.7rem;
+    color:var(--rail); line-height:1.05; text-align:right;
+    font-variant-numeric:tabular-nums;
+  }
+  .body h2{
+    font-family:Bitter,Georgia,serif; font-weight:600; font-size:1.12rem;
+    margin:.1rem 0 .3rem; line-height:1.3; text-wrap:balance;
+  }
+  .body p{margin:0 0 .55rem; color:var(--ink-soft)}
+  .body p:last-child{margin-bottom:0}
+  .kbd{
+    font-family:"JetBrains Mono",ui-monospace,monospace; font-weight:500;
+    font-size:.92em; background:var(--line-soft); color:var(--ink);
+    padding:.1em .38em; border-radius:4px; white-space:nowrap;
+  }
+  .fallback{font-size:.88rem; color:var(--ink-soft); margin-top:.5rem}
+
+  /* ---- buttons ---- */
+  a.go,button.send{
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    min-height:3.3rem; padding:.7rem 1.1rem; margin-top:.2rem;
+    background:var(--accent); color:var(--accent-ink); text-decoration:none;
+    font:700 1.02rem/1.25 "Source Sans 3",sans-serif;
+    border:none; border-radius:10px; width:100%; cursor:pointer;
+  }
+  a.go:active,button.send:active{filter:brightness(.92)}
+  a.go:focus-visible,button.send:focus-visible,input:focus-visible,.langs button:focus-visible{
+    outline:3px solid var(--accent); outline-offset:2px;
+  }
+
+  /* ---- form ---- */
+  .field{display:flex; flex-direction:column; gap:.3rem; margin:.75rem 0}
+  .field label{font:600 .92rem/1.3 "Source Sans 3",sans-serif}
+  input{
+    font-family:"JetBrains Mono",ui-monospace,monospace; font-weight:700;
+    font-size:1.5rem; letter-spacing:.08em; font-variant-numeric:tabular-nums slashed-zero;
+    padding:.6rem .7rem; background:var(--surface); color:var(--ink);
+    border:1.5px solid var(--line); border-radius:9px; width:100%; min-height:3.3rem;
+  }
+  .note{
+    background:var(--warn-wash); color:var(--warn); border-left:3px solid var(--warn);
+    padding:.7rem .85rem; border-radius:0 7px 7px 0; font-size:.93rem; margin:.75rem 0 0;
+  }
+  .status{margin-top:.8rem; font-weight:600; font-size:.98rem; min-height:1.4em}
+  .status[data-ok="1"]{color:var(--done)}
+  .status[data-ok="0"]{color:#b3341f}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="langs">
+      <button type="button" data-lang="uk" aria-pressed="true">Українська</button>
+      <button type="button" data-lang="de" aria-pressed="false">Deutsch</button>
+    </div>
+    <h1 data-t="h1"></h1>
+    <p class="sub" data-t="sub"></p>
+  </div>
+
+  <div class="part"><span data-t="p1"></span></div>
+  <ol>
+    <li><div class="num">1</div><div class="body">
+      <h2 data-t="s1h"></h2><p data-t="s1p"></p>
+      <a class="go" data-t="s1b" href="https://play.google.com/store/apps/details?id=com.tailscale.ipn"></a>
+    </div></li>
+    <li><div class="num">2</div><div class="body">
+      <h2 data-t="s2h"></h2><p data-t="s2p"></p>
+      <a class="go" id="inviteBtn" data-t="s2b" href="#" hidden></a>
+    </div></li>
+    <li><div class="num">3</div><div class="body">
+      <h2 data-t="s3h"></h2><p data-t="s3p"></p>
+    </div></li>
+  </ol>
+
+  <div class="part"><span data-t="p2"></span></div>
+  <ol>
+    <li><div class="num">4</div><div class="body">
+      <h2 data-t="s4h"></h2><p data-t="s4p"></p>
+      <a class="go" data-t="s4b" href="intent://#Intent;action=android.settings.DEVICE_INFO_SETTINGS;end"></a>
+      <p class="fallback" data-t="s4f"></p>
+    </div></li>
+    <li><div class="num">5</div><div class="body">
+      <h2 data-t="s5h"></h2><p data-t="s5p"></p>
+    </div></li>
+    <li><div class="num">6</div><div class="body">
+      <h2 data-t="s6h"></h2><p data-t="s6p"></p>
+      <a class="go" data-t="s6b" href="intent://#Intent;action=android.settings.APPLICATION_DEVELOPMENT_SETTINGS;end"></a>
+      <p class="fallback" data-t="s6f"></p>
+    </div></li>
+  </ol>
+
+  <div class="part"><span data-t="p3"></span></div>
+  <ol>
+    <li><div class="num">7</div><div class="body">
+      <h2 data-t="s7h"></h2><p data-t="s7p"></p>
+      <div class="field">
+        <label for="cport" data-t="s7l"></label>
+        <input id="cport" inputmode="numeric" autocomplete="off" placeholder="37xxx">
+      </div>
+      <button class="send" type="button" data-send="connect" data-t="s7b"></button>
+      <div class="status" id="st-connect"></div>
+    </div></li>
+    <li><div class="num">8</div><div class="body">
+      <h2 data-t="s8h"></h2><p data-t="s8p"></p>
+      <div class="note" data-t="s8n"></div>
+      <div class="field">
+        <label for="code" data-t="s8l1"></label>
+        <input id="code" inputmode="numeric" autocomplete="off" placeholder="123456">
+      </div>
+      <div class="field">
+        <label for="pport" data-t="s8l2"></label>
+        <input id="pport" inputmode="numeric" autocomplete="off" placeholder="41xxx">
+      </div>
+      <button class="send" type="button" data-send="pair" data-t="s8b"></button>
+      <div class="status" id="st-pair"></div>
+    </div></li>
+  </ol>
+</div>
+
+<script>
+function readTopic(){
+  var m = (location.hash || "").match(/[#&]t=([A-Za-z0-9-]{6,64})/);
+  if (m) return m[1];
+  try{
+    var q = new URLSearchParams(location.search).get("t");
+    if (q && /^[A-Za-z0-9-]{6,64}$/.test(q)) return q;
+  }catch(e){}
+  return "";
+}
+var TOPIC = readTopic();
+var T = {
+ de:{
+  h1:"Handy freischalten",
+  sub:"Acht kurze Schritte. Geh sie einfach von oben nach unten durch — du kannst nichts kaputt machen.",
+  p1:"Teil 1 · Verbindung",
+  s1h:"Tailscale installieren",
+  s1p:"Der Knopf öffnet den Play Store. Tippe dort auf „Installieren“ und warte, bis es fertig ist.",
+  s1b:"Im Play Store öffnen",
+  s2h:"Einladung öffnen",
+  s2p:"Öffne jetzt den Einladungs-Link, den du per WhatsApp oder SMS bekommen hast. Wichtig: Tailscale nicht einfach so starten — nur über diesen Link, sonst passt die Verbindung nicht.",
+  s2b:"Einladung öffnen",
+  s3h:"Verbindung erlauben",
+  s3p:"Tippe in Tailscale auf „Connect“. Das Handy fragt nach einer VPN-Verbindung — tippe auf „OK“ oder „Zulassen“. Oben am Bildschirmrand erscheint dann ein kleines Schlüssel-Symbol. Das ist das Zeichen, dass es läuft.",
+  p2:"Teil 2 · Einstellungen",
+  s4h:"„Über das Telefon“ öffnen",
+  s4p:"Der Knopf springt direkt in die richtige Einstellung.",
+  s4b:"Einstellungen öffnen",
+  s4f:"Falls nichts passiert: Einstellungen → Über das Telefon → Softwareinformationen.",
+  s5h:"Sieben Mal auf die Build-Nummer tippen",
+  s5p:"Such die Zeile „Build-Nummer“ und tippe sieben Mal zügig darauf. Unten erscheint eine Meldung wie „Sie sind jetzt ein Entwickler“. Wenn nach der PIN gefragt wird, gib sie ein.",
+  s6h:"Drahtloses Debugging einschalten",
+  s6p:"Suche in den Entwickleroptionen „Drahtloses Debugging“ und stelle den Schalter auf ein. Die Warnung bestätige mit „Zulassen“.",
+  s6b:"Entwickleroptionen öffnen",
+  s6f:"Falls nichts passiert: Einstellungen → Entwickleroptionen (bei Samsung ganz unten).",
+  p3:"Teil 3 · Zahlen senden",
+  s7h:"Die erste Zahl",
+  s7p:"Tippe auf „Drahtloses Debugging“ (auf den Text, nicht den Schalter). Oben steht „IP-Adresse und Port“, zum Beispiel 192.168.1.44:37215. Du brauchst nur die Zahl nach dem Doppelpunkt.",
+  s7l:"Zahl nach dem Doppelpunkt",
+  s7b:"Diese Zahl senden",
+  s8h:"Der Kopplungs-Code",
+  s8p:"Tippe auf „Gerät mit Kopplungscode koppeln“. Es erscheint ein Fenster mit einem sechsstelligen Code und noch einer Adresse mit Doppelpunkt. Trage beides hier ein.",
+  s8n:"Lass dieses Fenster offen! Wechsle nur kurz hierher, sende die Zahlen und geh wieder zurück. Schließe das Fenster erst, wenn du die Bestätigung bekommst, dass es geklappt hat. Falls es nicht klappt: Fenster zu, nochmal auf „Gerät mit Kopplungscode koppeln“ — du bekommst neue Zahlen und schickst sie einfach noch einmal.",
+  s8l1:"Sechsstelliger Code",
+  s8l2:"Zahl nach dem Doppelpunkt",
+  s8b:"Code senden",
+  sending:"Wird gesendet …",
+  okc:"Angekommen. Du kannst weitermachen.",
+  okp:"Angekommen! Lass das Fenster offen und warte kurz.",
+  errEmpty:"Bitte trage die Zahlen ein.",
+  errNet:"Hat nicht funktioniert — prüfe die Internetverbindung und tippe nochmal auf den Knopf.",
+  noLink:"Dieser Link ist nicht vollständig. Bitte benutze den kompletten Link, den du bekommen hast."
+ },
+ uk:{
+  h1:"Налаштування телефону",
+  sub:"Вісім коротких кроків. Просто йдіть зверху вниз — зламати нічого не можна.",
+  p1:"Частина 1 · Зв’язок",
+  s1h:"Встановіть Tailscale",
+  s1p:"Кнопка відкриє Play Маркет. Натисніть там «Встановити» й трохи почекайте.",
+  s1b:"Відкрити Play Маркет",
+  s2h:"Відкрийте запрошення",
+  s2p:"Тепер відкрийте посилання-запрошення, яке вам надіслали (у WhatsApp або SMS). Важливо: не запускайте Tailscale самі — лише через це посилання, бо інакше зв’язок не спрацює.",
+  s2b:"Відкрити запрошення",
+  s3h:"Дозвольте підключення",
+  s3p:"У Tailscale натисніть «Connect». Телефон запитає про з’єднання VPN — натисніть «OK» або «Дозволити». Угорі екрана з’явиться маленький ключик. Це означає, що все працює.",
+  p2:"Частина 2 · Налаштування",
+  s4h:"Відкрийте «Про телефон»",
+  s4p:"Кнопка одразу відкриє потрібний розділ.",
+  s4b:"Відкрити налаштування",
+  s4f:"Якщо нічого не сталося: Налаштування → Про телефон → Відомості про ПЗ.",
+  s5h:"Натисніть сім разів на «Номер складання»",
+  s5p:"Знайдіть рядок «Номер складання» і швидко натисніть на нього сім разів. Унизу з’явиться повідомлення «Тепер ви розробник». Якщо запитає PIN-код — введіть його.",
+  s6h:"Увімкніть налагодження через Wi-Fi",
+  s6p:"У розділі для розробників знайдіть «Налагодження через Wi-Fi» (або «Бездротове налагодження») і переведіть перемикач в увімкнене положення. Попередження підтвердьте кнопкою «Дозволити».",
+  s6b:"Відкрити розділ розробника",
+  s6f:"Якщо нічого не сталося: Налаштування → Параметри розробника (у Samsung — у самому низу).",
+  p3:"Частина 3 · Надсилання цифр",
+  s7h:"Перше число",
+  s7p:"Натисніть на напис «Налагодження через Wi-Fi» (на текст, не на перемикач). Угорі буде «IP-адреса та порт», наприклад 192.168.1.44:37215. Потрібне лише число після двокрапки.",
+  s7l:"Число після двокрапки",
+  s7b:"Надіслати це число",
+  s8h:"Код підключення",
+  s8p:"Натисніть «Підключити пристрій за кодом». З’явиться вікно з шестизначним кодом і ще однією адресою з двокрапкою. Впишіть сюди і те, і те.",
+  s8n:"Не закривайте це вікно! Перейдіть сюди на хвилинку, надішліть цифри й повертайтеся назад. Закрийте вікно лише тоді, коли вам підтвердять, що все вийшло. Якщо не вийшло: закрийте вікно, натисніть «Підключити пристрій за кодом» ще раз — будуть нові цифри, просто надішліть їх знову.",
+  s8l1:"Шестизначний код",
+  s8l2:"Число після двокрапки",
+  s8b:"Надіслати код",
+  sending:"Надсилається …",
+  okc:"Дійшло. Можна йти далі.",
+  okp:"Дійшло! Залиште вікно відкритим і трохи почекайте.",
+  errEmpty:"Будь ласка, впишіть цифри.",
+  errNet:"Не вийшло — перевірте інтернет і натисніть кнопку ще раз.",
+  noLink:"Це посилання неповне. Скористайтеся, будь ласка, повним посиланням, яке вам надіслали."
+ }
+};
+
+var lang = "uk";
+
+function apply(){
+  var d = T[lang];
+  document.querySelectorAll("[data-t]").forEach(function(el){
+    var v = d[el.getAttribute("data-t")];
+    if (v) el.textContent = v;
+  });
+  document.documentElement.lang = lang;
+  document.querySelectorAll(".langs button").forEach(function(b){
+    b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false");
+  });
+  if (!TOPIC){
+    ["st-connect","st-pair"].forEach(function(id){
+      var el = document.getElementById(id);
+      el.setAttribute("data-ok","0"); el.textContent = d.noLink;
+    });
+  }
+}
+
+document.querySelectorAll(".langs button").forEach(function(b){
+  b.addEventListener("click", function(){ lang = b.dataset.lang; apply(); });
+});
+
+// The invite URL is passed in the link, never stored in this file.
+try {
+  var inv = new URLSearchParams(location.search).get("invite");
+  if (inv && /^https:\/\/(login\.tailscale\.com|tailscale\.com)\//.test(inv)) {
+    var ib = document.getElementById("inviteBtn");
+    ib.href = inv; ib.hidden = false;
+  }
+} catch (e) {}
+
+function post(kind, text, statusEl, okMsg){
+  var d = T[lang];
+  if (!TOPIC){ statusEl.setAttribute("data-ok","0"); statusEl.textContent = d.noLink; return; }
+  statusEl.removeAttribute("data-ok");
+  statusEl.textContent = d.sending;
+  fetch("https://ntfy.sh/" + TOPIC, { method:"POST", body:text, referrerPolicy:"no-referrer" })
+    .then(function(r){
+      if (!r.ok) throw new Error(r.status);
+      statusEl.setAttribute("data-ok","1");
+      statusEl.textContent = okMsg;
+    })
+    .catch(function(){
+      statusEl.setAttribute("data-ok","0");
+      statusEl.textContent = d.errNet;
+    });
+}
+
+function digits(el){ return (el.value || "").replace(/[^0-9]/g, ""); }
+
+document.querySelector('[data-send="connect"]').addEventListener("click", function(){
+  var d = T[lang], st = document.getElementById("st-connect");
+  var p = digits(document.getElementById("cport"));
+  if (!p) { st.setAttribute("data-ok","0"); st.textContent = d.errEmpty; return; }
+  post("connect", "CONNECT port=" + p, st, d.okc);
+});
+
+document.querySelector('[data-send="pair"]').addEventListener("click", function(){
+  var d = T[lang], st = document.getElementById("st-pair");
+  var c = digits(document.getElementById("code"));
+  var p = digits(document.getElementById("pport"));
+  if (!c || !p) { st.setAttribute("data-ok","0"); st.textContent = d.errEmpty; return; }
+  post("pair", "PAIR code=" + c + " port=" + p, st, d.okp);
+});
+
+apply();
+</script>
